@@ -298,14 +298,14 @@ todoist-mcp/
 ## Publishing & Registry
 
 - **MCP name:** `io.github.ecfaria/todoist-mcp`
-- **NPM package:** `todoist-mcp-server`
+- **NPM package:** `@ecfaria/todoist-mcp-server`
 - **server.json:** see the root of this repo for the registry definition
 
 ### Publishing flow
 
 1. Update version numbers as needed (`npm version <patch|minor|major>`).
 2. Build the distributable: `npm run build`.
-3. Publish to npm: `npm publish` (ensures the `mcpName` metadata is available).
+3. Publish to npm: `npm publish --access public` (scoped packages default to private).
 4. Validate registry metadata: `mcp-publisher validate`.
 5. Publish to the MCP registry: `mcp-publisher publish`.
 
@@ -314,6 +314,7 @@ todoist-mcp/
 - Added MCP registry metadata (`mcpName`) to `package.json`.
 - Documented the publishing process and registry identity.
 - Introduced the canonical `server.json` reference for registry publication.
+- Adopted the scoped npm package name `@ecfaria/todoist-mcp-server` to avoid collisions.
 
 ## Troubleshooting
 
