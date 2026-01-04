@@ -1,6 +1,7 @@
 {
   "name": "todoist-mcp-server",
   "version": "1.0.0",
+  "mcpName": "io.github.ecfaria/todoist-mcp",
   "description": "MCP server for Todoist task management integration",
   "type": "module",
   "main": "./build/server.js",

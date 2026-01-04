@@ -277,8 +277,8 @@ You can also use standard date formats:
 - "2024-12-31T14:30:00"
 
 ## Project Structure
-
 ```
+
 todoist-mcp/
 ├── src/
 │   ├── server.ts           # Main MCP server entry point
@@ -294,6 +294,26 @@ todoist-mcp/
 ├── .env.example
 └── README.md
 ```
+
+## Publishing & Registry
+
+- **MCP name:** `io.github.ecfaria/todoist-mcp`
+- **NPM package:** `todoist-mcp-server`
+- **server.json:** see the root of this repo for the registry definition
+
+### Publishing flow
+
+1. Update version numbers as needed (`npm version <patch|minor|major>`).
+2. Build the distributable: `npm run build`.
+3. Publish to npm: `npm publish` (ensures the `mcpName` metadata is available).
+4. Validate registry metadata: `mcp-publisher validate`.
+5. Publish to the MCP registry: `mcp-publisher publish`.
+
+### Release notes (v1.0.0)
+
+- Added MCP registry metadata (`mcpName`) to `package.json`.
+- Documented the publishing process and registry identity.
+- Introduced the canonical `server.json` reference for registry publication.
 
 ## Troubleshooting
 

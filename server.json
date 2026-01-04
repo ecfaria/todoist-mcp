@@ -1,0 +1,13 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.ecfaria/todoist-mcp",
+  "description": "Todoist MCP server for task creation, updates, completion, and search",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registry_type": "npm",
+      "identifier": "todoist-mcp-server",
+      "version": "1.0.0"
+    }
+  ]
+}
