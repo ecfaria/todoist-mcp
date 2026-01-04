@@ -61,12 +61,68 @@ export async function createTask(
       taskParams.due_string = params.due_date;
     }
 
+    // Handle parent task lookup
+    let parentId = params.parent_id;
+
+    if (params.parent_task_name) {
+      // Search for parent task by name
+      logger.debug(`Searching for parent task: "${params.parent_task_name}"`);
+
+      const allTasks = await client.get<TodoistTask[]>('/tasks');
+      const query = params.parent_task_name.toLowerCase();
+
+      const matches = allTasks.filter((task) =>
+        task.content.toLowerCase().includes(query)
+      );
+
+      if (matches.length === 0) {
+        return {
+          content: [{
+            type: 'text',
+            text: `No parent task found matching "${params.parent_task_name}". Please check the task name or use a task ID instead.`,
+          }],
+          isError: true,
+        };
+      }
+
+      if (matches.length > 1) {
+        // Multiple matches - ask user to clarify
+        const matchList = matches
+          .slice(0, 5) // Show max 5 matches
+          .map((t, i) => `${i + 1}. "${t.content}" [ID: ${t.id}]`)
+          .join('\n');
+
+        const moreText = matches.length > 5 ? `\n\n...and ${matches.length - 5} more` : '';
+
+        return {
+          content: [{
+            type: 'text',
+            text: `Found ${matches.length} tasks matching "${params.parent_task_name}":\n\n${matchList}${moreText}\n\nPlease be more specific or use the task ID instead.`,
+          }],
+          isError: true,
+        };
+      }
+
+      // Exact one match - use it
+      parentId = matches[0].id;
+      logger.debug(`Found parent task: ${matches[0].content} (${parentId})`);
+    }
+
+    if (parentId) {
+      taskParams.parent_id = parentId;
+    }
+
     // Create task via API
     logger.debug('Creating task with params:', taskParams);
     const task = await client.post<TodoistTask>('/tasks', taskParams);
 
     // Format success response
-    const text = formatTaskDetails(task);
+    let text = formatTaskDetails(task);
+
+    // Add note if this is a subtask
+    if (task.parent_id) {
+      text += `\n\nℹ️  This is a subtask (parent: ${task.parent_id})`;
+    }
 
     return {
       content: [{ type: 'text', text }],

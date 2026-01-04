@@ -66,7 +66,7 @@ async function main() {
       tools: [
         {
           name: 'todoist_create_task',
-          description: 'Create a new task in Todoist with optional project, due date, priority, and labels',
+          description: 'Create a new task in Todoist with optional project, due date, priority, labels, and parent task for subtasks',
           inputSchema: {
             type: 'object',
             properties: {
@@ -99,6 +99,14 @@ async function main() {
                 type: 'array',
                 items: { type: 'string' },
                 description: 'Array of label names',
+              },
+              parent_id: {
+                type: 'string',
+                description: 'Parent task ID to create this as a subtask',
+              },
+              parent_task_name: {
+                type: 'string',
+                description: 'Parent task name to search for (alternative to parent_id). The tool will search for tasks matching this name.',
               },
             },
             required: ['content'],

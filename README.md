@@ -94,7 +94,7 @@ After updating the configuration, restart Claude Desktop for the changes to take
 
 ### todoist_create_task
 
-Create a new task in Todoist with optional project, due date, priority, and labels.
+Create a new task in Todoist with optional project, due date, priority, labels, and parent task for subtasks.
 
 **Parameters:**
 
@@ -105,6 +105,8 @@ Create a new task in Todoist with optional project, due date, priority, and labe
 - `due_date` (optional): Due date in natural language or YYYY-MM-DD format
 - `priority` (optional): Priority level: 1 (normal), 2 (medium), 3 (high), 4 (urgent)
 - `labels` (optional): Array of label names
+- `parent_id` (optional): Parent task ID to create a subtask
+- `parent_task_name` (optional): Parent task name to search for (alternative to parent_id)
 
 **Examples:**
 
@@ -112,6 +114,9 @@ Create a new task in Todoist with optional project, due date, priority, and labe
 Create a task "Write report" due tomorrow with high priority
 Create a task "Buy groceries" in the Shopping project
 Create a task "Team meeting" due "next Monday at 2pm"
+Create a subtask "Buy milk" under parent task "Go to the supermarket"
+Create a subtask "Review slides" under task 8237492837
+Add subtask "Call John" to the task "Prepare presentation"
 ```
 
 ### todoist_list_tasks

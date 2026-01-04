@@ -25,7 +25,20 @@ export const createTaskSchema = z.object({
   due_date: z.string().optional().describe('Due date in natural language or YYYY-MM-DD format'),
   priority: prioritySchema.describe('Priority level: 1 (normal), 2 (medium), 3 (high), 4 (urgent)'),
   labels: z.array(z.string()).optional().describe('Array of label names'),
-});
+  parent_id: z.string().optional().describe('Parent task ID for creating a subtask'),
+  parent_task_name: z.string().optional().describe('Parent task name to search for (alternative to parent_id)'),
+}).refine(
+  (data) => {
+    // Can't specify both parent_id and parent_task_name
+    if (data.parent_id && data.parent_task_name) {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: 'Cannot specify both parent_id and parent_task_name. Use one or the other.',
+  }
+);
 
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 
